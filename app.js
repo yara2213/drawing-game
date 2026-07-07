@@ -14,19 +14,16 @@ function init() {
 appContents.style.display = "block";
 document.body.removeChild(startMessage);
 
-// create web audio api context
+
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
-// create Oscillator and gain node
 const oscillator = audioCtx.createOscillator();
 const gainNode = audioCtx.createGain();
-
-// connect oscillator to gain node to speakers 
+ 
 oscillator.connect(gainNode);
 gainNode.connect(audioCtx.destination);
 
-// create initial theremin frequency and volume values
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
@@ -34,8 +31,8 @@ const maxFreq = 6000;
 const maxVol = 0.02;
 const initialVol = 0.001;
 
-// set options for the oscillator
-oscillator.detune.value = 100; // value in cents
+
+oscillator.detune.value = 100; 
 oscillator.start(0);
 
 oscillator.onended = function () {
@@ -47,12 +44,10 @@ gainNode.gain.value = initialVol;
 gainNode.gain.minValue = initialVol;
 gainNode.gain.maxValue = initialVol;
 
-// Mouse pointer coordinates
+
 let CurX;
 let CurY;
 
-// Get new mouse pointer coordinates when mouse is moved
-// then set new gain and pitch values
 document.onmousemove = updatePage;
 
 function updatePage(e) {
@@ -67,7 +62,6 @@ function updatePage(e) {
     canvasDraw();
 }
 
-// mute button
 const mute = document.querySelector(".mute");
     
 mute.onclick = function () { 
@@ -83,7 +77,6 @@ mute.onclick = function () {
     }
     };
 
-// canvas visualization
 function random (number1, number2) {
     return number1 + (Math.floor(Math.random() * (number2 - number1)) + 1);
 }
@@ -130,12 +123,12 @@ for (let i=1; i <= 15; i = i + 2) {
     canvasCtx.closePath();
    }
 }
-// clear screen
+
 const clear = document.querySelector(".clear");
 clear.onclick = function () {
   canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 };
-// keyboard controls
+
 const body = document.querySelector("body");
 let KeyX = 1;
 let KeyY = 0.01;
@@ -150,7 +143,6 @@ body.onkeydown = function (e) {
    if (e.code === ARROW_RIGHT) { KeyX += 20;}
    if (e.code === ARROW_UP) { KeyY -= 20;}
    if (e.code === ARROW_DOWN) {KeyY += 20;}
-      // set max and min constraints for KeyX and KeyY
    if (KeyX < 1) { KeyX = 1;}
    if (KeyX > WIDTH) {KeyX = WIDTH;}
    if (KeyY < 0.01) {KeyY = 0.01;}
